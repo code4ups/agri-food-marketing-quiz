@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Διαδραστικό Τεστ Αυτοαξιολόγησης - Προώθηση Εξαγωγών και Μαρκετινγκ Αγροδιατροφικών Προιόντων</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Main Menu Section -->
+        <div id="mainMenuSection" class="section">
+            <div class="card">
+                <div class="header">
+                    <h1>🎓 Διαδραστικό Τεστ Αυτοαξιολόγησης</h1>
+                    <p>Προώθηση Εξαγωγών και Μαρκετινγκ Αγροδιατροφικών Προιόντων</p>
+                </div>
+
+                <div class="sections-menu">
+                    <h3>📚 Επιλέξτε Ενότητα</h3>
+                    <div class="sections-grid">
+                        <div class="section-card" data-section="1">
+                            <div class="section-icon">🌐</div>
+                            <h4>Ενότητα 1</h4>
+                            <p>Μέθοδοι Εξαγωγών & Ηλεκτρονικά Τελωνεία</p>
+                            <span class="question-count">30 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="2">
+                            <div class="section-icon">📊</div>
+                            <h4>Ενότητα 2</h4>
+                            <p>Ανάλυση Αγοράς & Καταναλωτική Συμπεριφορά</p>
+                            <span class="question-count">25 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="3">
+                            <div class="section-icon">💰</div>
+                            <h4>Ενότητα 3</h4>
+                            <p>Στρατηγικές Τιμολόγησης & Χρηματοδότηση</p>
+                            <span class="question-count">28 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="4">
+                            <div class="section-icon">📱</div>
+                            <h4>Ενότητα 4</h4>
+                            <p>Ψηφιακό Μαρκετινγκ & E-commerce</p>
+                            <span class="question-count">32 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="5">
+                            <div class="section-icon">🤝</div>
+                            <h4>Ενότητα 5</h4>
+                            <p>Διαχείριση Πελατειακών Σχέσεων</p>
+                            <span class="question-count">24 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="6">
+                            <div class="section-icon">📈</div>
+                            <h4>Ενότητα 6</h4>
+                            <p>Προώθηση & Διαφήμιση Προϊόντων</p>
+                            <span class="question-count">26 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="7">
+                            <div class="section-icon">🌍</div>
+                            <h4>Ενότητα 7</h4>
+                            <p>Διεθνές Εμπόριο & Εξαγωγικές Διαδικασίες</p>
+                            <span class="question-count">29 ερωτήσεις</span>
+                        </div>
+
+                        <div class="section-card" data-section="8">
+                            <div class="section-icon">🏆</div>
+                            <h4>Ενότητα 8</h4>
+                            <p>Μικτή Αξιολόγηση - Όλες οι Ενότητες</p>
+                            <span class="question-count">40 ερωτήσεις</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup Section -->
+        <div id="setupSection" class="section" style="display: none;">
+            <div class="card">
+                <div class="header">
+                    <h1 id="sectionTitle">🌐 Ενότητα 1: Μέθοδοι Εξαγωγών</h1>
+                    <button class="back-btn" onclick="backToMenu()">← Επιστροφή στο Μενού</button>
+                </div>
+
+                <div class="question-count-section">
+                    <h3>📊 Επιλέξτε Αριθμό Ερωτήσεων</h3>
+                    <div class="count-options">
+                        <div class="count-option" data-count="5">5 Ερωτήσεις</div>
+                        <div class="count-option" data-count="10">10 Ερωτήσεις</div>
+                        <div class="count-option" data-count="15">15 Ερωτήσεις</div>
+                        <div class="count-option" data-count="20">20 Ερωτήσεις</div>
+                        <div class="count-option selected" data-count="30">Πλήρης Αξιολόγηση</div>
+                    </div>
+                </div>
+
+                <div class="feedback-section">
+                    <h3>🔄 Επιλέξτε Τρόπο Λειτουργίας</h3>
+                    <div class="feedback-options">
+                        <div class="feedback-btn selected" data-mode="educational">
+                            <h4>🎓 Εκπαιδευτικός Τρόπος</h4>
+                            <p>Άμεση αναδρομή μετά από κάθε ερώτηση<br>Ιδανικός για μάθηση</p>
+                        </div>
+                        <div class="feedback-btn" data-mode="exam">
+                            <h4>📝 Εξεταστικός Τρόπος</h4>
+                            <p>Αποτελέσματα στο τέλος με μνήμη απαντήσεων<br>Ιδανικός για αξιολόγηση</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startQuiz()">🚀 Έναρξη Τεστ</button>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quizSection" class="section" style="display: none;">
+            <div class="card">
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Ερώτηση 1 από 30</div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number" id="questionNumber">1</span>
+                        <span class="question-type" id="questionType">Σωστό/Λάθος</span>
+                    </div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="options" id="optionsContainer"></div>
+                    <div id="feedbackMessage" class="feedback-message" style="display: none;"></div>
+                </div>
+
+                <div class="quiz-controls">
+                    <button class="control-btn cancel-btn" onclick="cancelQuiz()">❌ Ακύρωση</button>
+                    <div class="nav-controls">
+                        <button class="control-btn" id="prevBtn" onclick="previousQuestion()" disabled>⬅️ Προηγούμενη</button>
+                        <button class="control-btn" id="nextBtn" onclick="nextQuestion()" disabled>Επόμενη ➡️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="section" style="display: none;">
+            <div class="card">
+                <div class="results-header">
+                    <h2>🎯 Αποτελέσματα Τεστ</h2>
+                    <div class="score-circle" id="scoreCircle">
+                        <div class="score-text" id="scoreText">0%</div>
+                    </div>
+                    <div class="performance-badge" id="performanceBadge">Καλή Προσπάθεια!</div>
+                </div>
+
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <h4>Σωστές Απαντήσεις</h4>
+                        <div class="value" id="correctCount">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Λανθασμένες Απαντήσεις</h4>
+                        <div class="value" id="incorrectCount">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Συνολικό Ποσοστό</h4>
+                        <div class="value" id="finalPercentage">0%</div>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Συνολικές Ερωτήσεις</h4>
+                        <div class="value" id="totalQuestions">0</div>
+                    </div>
+                </div>
+
+                <!-- Detailed Results for Exam Mode -->
+                <div id="detailedResults" style="display: none;">
+                    <h3>📝 Αναλυτικά Αποτελέσματα</h3>
+                    <div id="detailedResultsContainer"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="action-btn export-btn" onclick="exportToPDF()">📄 Εξαγωγή PDF</button>
+                    <button class="action-btn restart-btn" onclick="restartQuiz()">🔄 Νέο Τεστ</button>
+                    <button class="action-btn menu-btn" onclick="backToMenu()">🏠 Αρχική Σελίδα</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/questionBank.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
