@@ -57,12 +57,60 @@ function showSetupSection() {
     // Ενημέρωση τίτλου ενότητας
     document.getElementById('sectionTitle').textContent = sectionData.title;
 
-    // Ενημέρωση του μέγιστου αριθμού ερωτήσεων για την πλήρη αξιολόγηση
-    const fullAssessmentOption = document.querySelector('.count-option[data-count="30"]');
-    if (fullAssessmentOption) {
-        fullAssessmentOption.textContent = `Πλήρης Αξιολόγηση (${sectionData.maxQuestions})`;
-        fullAssessmentOption.dataset.count = sectionData.maxQuestions;
-        quizSettings.questionCount = sectionData.maxQuestions;
+    // Ειδική λογική για την Ενότητα 9 (Μικτή Αξιολόγηση)
+    if (selectedSection === 9) {
+        // Ενημέρωση των επιλογών αριθμού ερωτήσεων για την Ενότητα 9
+        const countOptions = document.querySelectorAll('.count-option');
+        if (countOptions.length >= 4) {
+            countOptions[0].textContent = '8 Ερωτήσεις';
+            countOptions[0].dataset.count = '8';
+            countOptions[1].textContent = '16 Ερωτήσεις';
+            countOptions[1].dataset.count = '16';
+            countOptions[2].textContent = '32 Ερωτήσεις';
+            countOptions[2].dataset.count = '32';
+            countOptions[3].textContent = '48 Ερωτήσεις';
+            countOptions[3].dataset.count = '48';
+
+            // Επιλογή του 32 ως προεπιλογή για τη μικτή αξιολόγηση
+            countOptions.forEach(option => option.classList.remove('selected'));
+            countOptions[2].classList.add('selected');
+            quizSettings.questionCount = 32;
+        }
+
+        // Αφαίρεση της 5ης επιλογής αν υπάρχει
+        const fifthOption = document.querySelector('.count-option[data-count="30"]');
+        if (fifthOption) {
+            fifthOption.style.display = 'none';
+        }
+    } else {
+        // Επαναφορά των κανονικών επιλογών για τις άλλες ενότητες
+        const countOptions = document.querySelectorAll('.count-option');
+        if (countOptions.length >= 4) {
+            countOptions[0].textContent = '5 Ερωτήσεις';
+            countOptions[0].dataset.count = '5';
+            countOptions[1].textContent = '10 Ερωτήσεις';
+            countOptions[1].dataset.count = '10';
+            countOptions[2].textContent = '15 Ερωτήσεις';
+            countOptions[2].dataset.count = '15';
+            countOptions[3].textContent = '20 Ερωτήσεις';
+            countOptions[3].dataset.count = '20';
+        }
+
+        // Εμφάνιση της 5ης επιλογής
+        const fifthOption = document.querySelector('.count-option[data-count="30"]');
+        if (fifthOption) {
+            fifthOption.style.display = 'block';
+            fifthOption.textContent = `Πλήρης Αξιολόγηση (${sectionData.maxQuestions})`;
+            fifthOption.dataset.count = sectionData.maxQuestions;
+        }
+
+        // Επιλογή της πλήρους αξιολόγησης ως προεπιλογή
+        const fullAssessmentOption = document.querySelector('.count-option[data-count="30"]');
+        if (fullAssessmentOption) {
+            countOptions.forEach(option => option.classList.remove('selected'));
+            fullAssessmentOption.classList.add('selected');
+            quizSettings.questionCount = sectionData.maxQuestions;
+        }
     }
 
     // Εμφάνιση setup section
@@ -82,12 +130,32 @@ function backToMenu() {
 }
 
 function resetSetupOptions() {
+    // Επαναφορά των επιλογών αριθμού ερωτήσεων στις αρχικές τιμές
+    const countOptions = document.querySelectorAll('.count-option');
+    if (countOptions.length >= 4) {
+        countOptions[0].textContent = '5 Ερωτήσεις';
+        countOptions[0].dataset.count = '5';
+        countOptions[1].textContent = '10 Ερωτήσεις';
+        countOptions[1].dataset.count = '10';
+        countOptions[2].textContent = '15 Ερωτήσεις';
+        countOptions[2].dataset.count = '15';
+        countOptions[3].textContent = '20 Ερωτήσεις';
+        countOptions[3].dataset.count = '20';
+    }
+
+    // Εμφάνιση και επαναφορά της 5ης επιλογής
+    const fifthOption = document.querySelector('.count-option[data-count="30"]');
+    if (fifthOption) {
+        fifthOption.style.display = 'block';
+        fifthOption.textContent = 'Πλήρης Αξιολόγηση (30)';
+        fifthOption.dataset.count = '30';
+    }
+
     // Επαναφορά επιλογής αριθμού ερωτήσεων
     document.querySelectorAll('.count-option').forEach(o => o.classList.remove('selected'));
     const defaultCountOption = document.querySelector('.count-option[data-count="30"]');
     if (defaultCountOption) {
         defaultCountOption.classList.add('selected');
-        defaultCountOption.textContent = 'Πλήρης Αξιολόγηση (30)';
         quizSettings.questionCount = 30;
     }
 
@@ -128,14 +196,16 @@ function startQuiz() {
 function getSectionQuestions() {
     const sectionKey = `section${selectedSection}`;
 
-    if (selectedSection === 8) {
-        // Για την ενότητα 8 (μικτή αξιολόγηση), συλλογή ερωτήσεων από όλες τις ενότητες
+    if (selectedSection === 9) {
+        // Για την ενότητα 9 (μικτή αξιολόγηση), συλλογή ερωτήσεων από όλες τις ενότητες 1-8
         let allQuestions = [];
-        for (let i = 1; i <= 7; i++) {
+        for (let i = 1; i <= 8; i++) {
             const questions = questionBank[`section${i}`] || [];
             allQuestions = allQuestions.concat(questions);
         }
-        return allQuestions;
+
+        // Ανάμιξη όλων των ερωτήσεων για τυχαία επιλογή
+        return allQuestions.sort(() => Math.random() - 0.5);
     }
 
     return questionBank[sectionKey] || [];
