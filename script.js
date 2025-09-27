@@ -361,94 +361,409 @@ function restartQuiz() {
     resetSetupOptions();
 }
 
-// PDF Export functionality
-function exportToPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+// HTML Export functionality - Τέλεια για ελληνικά, εύκολη εκτύπωση
+function exportToHTML() {
+    console.log('Δημιουργία HTML αρχείου...');
 
-    // Ρυθμίσεις PDF
-    doc.setFont('helvetica');
-    let yPosition = 20;
-    const pageHeight = 280;
-    const lineHeight = 7;
-
-    // Τίτλος
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Apotelesmata Test Autoaxiologisis', 20, yPosition);
-    yPosition += 10;
-
-    // Πληροφορίες ενότητας
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
-    const sectionData = sectionInfo[selectedSection];
-    doc.text(`Enotita: ${sectionData.title}`, 20, yPosition);
-    yPosition += 10;
-
-    // Αποτελέσματα
+    // Υπολογισμός αποτελεσμάτων
     const correctCount = selectedQuestions.filter((q, i) => userAnswers[i] === q.correct).length;
     const percentage = Math.round((correctCount / selectedQuestions.length) * 100);
-
-    doc.text(`Synolikes Erotiseis: ${selectedQuestions.length}`, 20, yPosition);
-    yPosition += lineHeight;
-    doc.text(`Sostes Apantiseis: ${correctCount}`, 20, yPosition);
-    yPosition += lineHeight;
-    doc.text(`Pososto Epitychias: ${percentage}%`, 20, yPosition);
-    yPosition += 15;
-
-    // Αναλυτικά αποτελέσματα
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Analytika Apotelesmata:', 20, yPosition);
-    yPosition += 10;
-
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-
-    selectedQuestions.forEach((question, index) => {
-        // Έλεγχος αν χρειάζεται νέα σελίδα
-        if (yPosition > pageHeight - 30) {
-            doc.addPage();
-            yPosition = 20;
-        }
-
-        const userAnswer = userAnswers[index];
-        const isCorrect = userAnswer === question.correct;
-
-        doc.setFont('helvetica', 'bold');
-        const questionText = `${index + 1}. ${question.question}`;
-        const splitQuestion = doc.splitTextToSize(questionText, 170);
-        doc.text(splitQuestion, 20, yPosition);
-        yPosition += splitQuestion.length * lineHeight;
-
-        doc.setFont('helvetica', 'normal');
-        doc.text(`I apantisi sas: ${question.options[userAnswer]}`, 25, yPosition);
-        yPosition += lineHeight;
-
-        if (!isCorrect) {
-            doc.text(`Sosti apantisi: ${question.options[question.correct]}`, 25, yPosition);
-            yPosition += lineHeight;
-        }
-
-        doc.setFontSize(9);
-        const explanationText = `Exigisi: ${question.explanation}`;
-        const splitExplanation = doc.splitTextToSize(explanationText, 170);
-        doc.text(splitExplanation, 25, yPosition);
-        yPosition += splitExplanation.length * 6 + 5;
-
-        doc.setFontSize(10);
+    const sectionData = sectionInfo[selectedSection];
+    const currentDate = new Date().toLocaleDateString('el-GR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     });
 
-    // Αποθήκευση αρχείου
-    const fileName = `quiz_results_section_${selectedSection}_${new Date().toLocaleDateString('el-GR').replace(/\//g, '-')}.pdf`;
-    doc.save(fileName);
-}
-
-// Έλεγχος διαθεσιμότητας jsPDF
-function checkPDFSupport() {
-    if (typeof window.jspdf === 'undefined') {
-        console.error('jsPDF library is not loaded');
-        return false;
+    // Καθορισμός badge επίδοσης
+    let performanceBadge = '';
+    let badgeClass = '';
+    if (percentage >= 90) {
+        performanceBadge = '🏆 Άριστα! Εξαιρετική Επίδοση!';
+        badgeClass = 'excellent';
+    } else if (percentage >= 75) {
+        performanceBadge = '🎯 Πολύ Καλά! Καλή Επίδοση!';
+        badgeClass = 'good';
+    } else if (percentage >= 60) {
+        performanceBadge = '📚 Μέτρια Επίδοση - Χρειάζεται Μελέτη';
+        badgeClass = 'average';
+    } else {
+        performanceBadge = '📖 Χρειάζεται Περισσότερη Μελέτη';
+        badgeClass = 'poor';
     }
-    return true;
+
+    // Δημιουργία HTML περιεχομένου
+    const htmlContent = `<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Αποτελέσματα Τεστ - ${sectionData.description}</title>
+    <style>
+        /* Print και Screen Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 1.3em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .results-summary {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #28a745;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .result-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #495057;
+            display: block;
+        }
+
+        .result-label {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .percentage {
+            font-size: 3em !important;
+            color: #28a745;
+        }
+
+        .performance-badge {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 20px 0;
+        }
+
+        .performance-badge.excellent {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .performance-badge.good {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .performance-badge.average {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .performance-badge.poor {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .question-item {
+            margin-bottom: 25px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .question-header {
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question-header.correct {
+            background: #d4edda;
+            color: #155724;
+            border-bottom: 1px solid #c3e6cb;
+        }
+
+        .question-header.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-bottom: 1px solid #f5c6cb;
+        }
+
+        .question-content {
+            padding: 20px;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .answer-section {
+            margin-bottom: 15px;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .user-answer {
+            color: #6c757d;
+        }
+
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .incorrect-answer {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .explanation {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #6c757d;
+            margin-top: 15px;
+        }
+
+        .explanation-label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .print-instructions {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .print-instructions strong {
+            color: #1565c0;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .print-instructions {
+                display: none;
+            }
+
+            .question-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .header {
+                background: #667eea !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+        }
+
+        @page {
+            margin: 1cm;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Αποτελέσματα Τεστ Αυτοαξιολόγησης</h1>
+            <h2>${sectionData.description}</h2>
+        </div>
+
+        <div class="content">
+            <div class="print-instructions">
+                <strong>💡 Οδηγίες:</strong> Για εκτύπωση ή αποθήκευση ως PDF: Ctrl+P (ή Cmd+P) → Επιλέξτε "Save as PDF"
+            </div>
+
+            <div class="results-summary">
+                <h3 style="margin-bottom: 20px; color: #495057;">📊 Σύνοψη Αποτελεσμάτων</h3>
+
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-value percentage">${percentage}%</span>
+                        <div class="result-label">Ποσοστό Επιτυχίας</div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-value" style="color: #28a745;">${correctCount}</span>
+                        <div class="result-label">Σωστές Απαντήσεις</div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-value" style="color: #dc3545;">${selectedQuestions.length - correctCount}</span>
+                        <div class="result-label">Λανθασμένες</div>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-value">${selectedQuestions.length}</span>
+                        <div class="result-label">Σύνολο Ερωτήσεων</div>
+                    </div>
+                </div>
+
+                <div class="performance-badge ${badgeClass}">
+                    ${performanceBadge}
+                </div>
+
+                <p style="text-align: center; margin-top: 15px; color: #6c757d;">
+                    <strong>Ημερομηνία:</strong> ${currentDate}
+                </p>
+            </div>
+
+            <h3 style="margin-bottom: 25px; color: #495057; border-bottom: 2px solid #dee2e6; padding-bottom: 10px;">
+                📝 Αναλυτικά Αποτελέσματα
+            </h3>
+
+            ${selectedQuestions.map((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.correct;
+                const statusIcon = isCorrect ? '✅' : '❌';
+                const statusText = isCorrect ? 'ΣΩΣΤΟ' : 'ΛΑΘΟΣ';
+                const headerClass = isCorrect ? 'correct' : 'incorrect';
+
+                return `
+                    <div class="question-item">
+                        <div class="question-header ${headerClass}">
+                            <span>${statusIcon}</span>
+                            <span>Ερώτηση ${index + 1} - ${statusText}</span>
+                        </div>
+                        <div class="question-content">
+                            <div class="question-text">${question.question}</div>
+
+                            <div class="answer-section">
+                                <span class="answer-label">Η απάντησή σας:</span>
+                                <span class="${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
+                                    ${question.options[userAnswer] || 'Δεν δόθηκε απάντηση'}
+                                </span>
+                            </div>
+
+                            ${!isCorrect ? `
+                                <div class="answer-section">
+                                    <span class="answer-label">Σωστή απάντηση:</span>
+                                    <span class="correct-answer">${question.options[question.correct]}</span>
+                                </div>
+                            ` : ''}
+
+                            <div class="explanation">
+                                <span class="explanation-label">💡 Εξήγηση:</span>
+                                ${question.explanation}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+
+        <div class="footer">
+            <p><strong>Διαδραστικό Τεστ Αυτοαξιολόγησης</strong></p>
+            <p>Προώθηση Εξαγωγών και Μάρκετινγκ Αγροδιατροφικών Προιόντων</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Δημιουργήθηκε στις ${currentDate}
+            </p>
+        </div>
+    </div>
+</body>
+</html>`;
+
+    // Δημιουργία και λήψη αρχείου
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = `αποτελεσματα_τεστ_ενοτητα_${selectedSection}_${new Date().toISOString().split('T')[0]}.html`;
+    link.style.display = 'none';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Καθαρισμός URL object
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+
+    console.log('HTML αρχείο δημιουργήθηκε επιτυχώς!');
 }
