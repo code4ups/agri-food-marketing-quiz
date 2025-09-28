@@ -1,6 +1,38 @@
-<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-  <!-- Favicon version - simplified -->
-  <text x="100" y="50" text-anchor="middle" style="font-family: 'Poppins', Arial, sans-serif; font-size: 24px; font-weight: 600;">
-    <tspan fill="#333333">PanJK</tspan><tspan fill="#1f5582" dx="4">TEST</tspan>
-  </text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="#f8f4e6" stroke="#d4af37" stroke-width="2"/>
+
+  <!-- Wheat stalk -->
+  <g fill="#d4af37">
+    <!-- Main stem -->
+    <line x1="8" y1="24" x2="8" y2="8" stroke="#8b7355" stroke-width="1.5"/>
+
+    <!-- Wheat grains (left side) -->
+    <ellipse cx="6.5" cy="10" rx="1.5" ry="0.8" transform="rotate(-20 6.5 10)"/>
+    <ellipse cx="6.2" cy="12" rx="1.5" ry="0.8" transform="rotate(-15 6.2 12)"/>
+    <ellipse cx="6" cy="14" rx="1.5" ry="0.8" transform="rotate(-10 6 14)"/>
+    <ellipse cx="6.2" cy="16" rx="1.5" ry="0.8" transform="rotate(-5 6.2 16)"/>
+    <ellipse cx="6.5" cy="18" rx="1.5" ry="0.8" transform="rotate(0 6.5 18)"/>
+    <ellipse cx="7" cy="20" rx="1.5" ry="0.8" transform="rotate(5 7 20)"/>
+
+    <!-- Wheat grains (right side) -->
+    <ellipse cx="9.5" cy="10" rx="1.5" ry="0.8" transform="rotate(20 9.5 10)"/>
+    <ellipse cx="9.8" cy="12" rx="1.5" ry="0.8" transform="rotate(15 9.8 12)"/>
+    <ellipse cx="10" cy="14" rx="1.5" ry="0.8" transform="rotate(10 10 14)"/>
+    <ellipse cx="9.8" cy="16" rx="1.5" ry="0.8" transform="rotate(5 9.8 16)"/>
+    <ellipse cx="9.5" cy="18" rx="1.5" ry="0.8" transform="rotate(0 9.5 18)"/>
+    <ellipse cx="9" cy="20" rx="1.5" ry="0.8" transform="rotate(-5 9 20)"/>
+  </g>
+
+  <!-- Export arrow -->
+  <g fill="#2e7d32" stroke="#2e7d32">
+    <!-- Arrow shaft -->
+    <line x1="14" y1="16" x2="22" y2="16" stroke-width="2"/>
+    <!-- Arrow head -->
+    <polygon points="22,13 26,16 22,19" fill="#2e7d32"/>
+  </g>
+
+  <!-- Small accent dots for modern touch -->
+  <circle cx="12" cy="12" r="0.5" fill="#81c784" opacity="0.6"/>
+  <circle cx="20" cy="20" r="0.5" fill="#81c784" opacity="0.6"/>
 </svg>
