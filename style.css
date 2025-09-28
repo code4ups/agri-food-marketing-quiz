@@ -39,6 +39,23 @@ body {
     position: relative;
 }
 
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.main-logo {
+    height: 64px;
+    width: auto;
+    max-width: 300px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    transition: all 0.3s ease;
+}
+
+.main-logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+}
+
 .header h1 {
     color: #2c3e50;
     margin-bottom: 15px;
@@ -58,7 +75,7 @@ body {
 
 .back-btn {
     position: absolute;
-    top: 0;
+    top: -35px;
     left: 0;
     background: #6c757d;
     color: white;
@@ -738,5 +755,63 @@ body {
 
     .score-text {
         font-size: 1.8em;
+    }
+}
+
+/* Footer Styles */
+.app-footer {
+    margin-top: 40px;
+    padding: 25px 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px 20px 0 0;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-content p {
+    color: #6c757d;
+    font-weight: 500;
+    margin: 0;
+    font-size: 0.95em;
+}
+
+.instagram-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+}
+
+.instagram-link:hover {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .app-footer {
+        margin-top: 30px;
+        padding: 20px 15px;
     }
 }

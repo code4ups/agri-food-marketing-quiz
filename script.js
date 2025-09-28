@@ -62,13 +62,13 @@ function showSetupSection() {
         // Ενημέρωση των επιλογών αριθμού ερωτήσεων για την Ενότητα 9
         const countOptions = document.querySelectorAll('.count-option');
         if (countOptions.length >= 4) {
-            countOptions[0].textContent = '8 Ερωτήσεις';
+            countOptions[0].textContent = '8';
             countOptions[0].dataset.count = '8';
-            countOptions[1].textContent = '16 Ερωτήσεις';
+            countOptions[1].textContent = '16';
             countOptions[1].dataset.count = '16';
-            countOptions[2].textContent = '32 Ερωτήσεις';
+            countOptions[2].textContent = '32';
             countOptions[2].dataset.count = '32';
-            countOptions[3].textContent = '48 Ερωτήσεις';
+            countOptions[3].textContent = '48';
             countOptions[3].dataset.count = '48';
 
             // Επιλογή του 32 ως προεπιλογή για τη μικτή αξιολόγηση
@@ -86,13 +86,13 @@ function showSetupSection() {
         // Επαναφορά των κανονικών επιλογών για τις άλλες ενότητες
         const countOptions = document.querySelectorAll('.count-option');
         if (countOptions.length >= 4) {
-            countOptions[0].textContent = '5 Ερωτήσεις';
+            countOptions[0].textContent = '5';
             countOptions[0].dataset.count = '5';
-            countOptions[1].textContent = '10 Ερωτήσεις';
+            countOptions[1].textContent = '10';
             countOptions[1].dataset.count = '10';
-            countOptions[2].textContent = '15 Ερωτήσεις';
+            countOptions[2].textContent = '15';
             countOptions[2].dataset.count = '15';
-            countOptions[3].textContent = '20 Ερωτήσεις';
+            countOptions[3].textContent = '20';
             countOptions[3].dataset.count = '20';
         }
 
@@ -100,7 +100,7 @@ function showSetupSection() {
         const fifthOption = document.querySelector('.count-option[data-count="30"]');
         if (fifthOption) {
             fifthOption.style.display = 'block';
-            fifthOption.textContent = `Πλήρης Αξιολόγηση (${sectionData.maxQuestions})`;
+            fifthOption.textContent = 'ΟΛΕΣ';
             fifthOption.dataset.count = sectionData.maxQuestions;
         }
 
@@ -133,13 +133,13 @@ function resetSetupOptions() {
     // Επαναφορά των επιλογών αριθμού ερωτήσεων στις αρχικές τιμές
     const countOptions = document.querySelectorAll('.count-option');
     if (countOptions.length >= 4) {
-        countOptions[0].textContent = '5 Ερωτήσεις';
+        countOptions[0].textContent = '5';
         countOptions[0].dataset.count = '5';
-        countOptions[1].textContent = '10 Ερωτήσεις';
+        countOptions[1].textContent = '10';
         countOptions[1].dataset.count = '10';
-        countOptions[2].textContent = '15 Ερωτήσεις';
+        countOptions[2].textContent = '15';
         countOptions[2].dataset.count = '15';
-        countOptions[3].textContent = '20 Ερωτήσεις';
+        countOptions[3].textContent = '20';
         countOptions[3].dataset.count = '20';
     }
 
@@ -147,7 +147,7 @@ function resetSetupOptions() {
     const fifthOption = document.querySelector('.count-option[data-count="30"]');
     if (fifthOption) {
         fifthOption.style.display = 'block';
-        fifthOption.textContent = 'Πλήρης Αξιολόγηση (30)';
+        fifthOption.textContent = 'ΟΛΕΣ';
         fifthOption.dataset.count = '30';
     }
 
