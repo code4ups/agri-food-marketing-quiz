@@ -11,8 +11,33 @@ let quizSettings = {
 // Αρχικοποίηση
 document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
+    updateQuestionCounts();
     showMainMenu();
 });
+
+// Ενημέρωση δυναμικών αριθμών ερωτήσεων από το questionBank
+function updateQuestionCounts() {
+    // Ενημέρωση όλων των ενοτήτων 1-8
+    for (let i = 1; i <= 8; i++) {
+        const sectionCard = document.querySelector(`.section-card[data-section="${i}"]`);
+        if (sectionCard && sectionInfo[i]) {
+            const questionCountElement = sectionCard.querySelector('.question-count');
+            if (questionCountElement) {
+                const maxQuestions = sectionInfo[i].maxQuestions;
+                questionCountElement.textContent = `${maxQuestions} ερωτήσεις`;
+            }
+        }
+    }
+
+    // Ειδική περίπτωση για την Ενότητα 9 (Μικτή Αξιολόγηση)
+    const section9Card = document.querySelector('.section-card[data-section="9"]');
+    if (section9Card && sectionInfo[9]) {
+        const questionCountElement = section9Card.querySelector('.question-count');
+        if (questionCountElement) {
+            questionCountElement.textContent = '8-48 ερωτήσεις';
+        }
+    }
+}
 
 function setupEventListeners() {
     // Επιλογή ενότητας από το κύριο μενού
